@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
+import 'package:submission_final/initializer.dart' as di;
+import 'package:submission_final/ui/views/detail/restaurant_detail_provider.dart';
+import 'package:submission_final/ui/views/detail/restaurant_detail_view.dart';
+import 'package:submission_final/ui/views/home/restaurant_list_provider.dart';
+import 'package:submission_final/ui/views/search/search_restataurant_provider.dart';
+import 'package:submission_final/ui/views/search/search_restaurant_view.dart';
+
+import 'core/route_observer.dart';
+import 'core/theme/app_theme.dart';
+import 'domain/entities/restaurant.dart';
+import 'ui/views/home/restaurant_list_view.dart';
 
 void main() {
+  di.init();
   runApp(const MyApp());
 }
 
@@ -9,59 +23,49 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => di.sl<RestaurantListProvider>().init(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<RestaurantDetailProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<SearchRestaurantProvider>(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Fundamental',
+        theme: AppTheme.build(),
+        home: const RestaurantListView(),
+        navigatorObservers: [routeObserver],
+        onGenerateRoute: (RouteSettings settings) {
+          switch (settings.name) {
+            case RestaurantListView.route:
+              return MaterialPageRoute(
+                  builder: (_) => const RestaurantListView());
+            case RestaurantDetailView.route:
+              final id = settings.arguments as Restaurant;
+              return MaterialPageRoute(
+                  builder: (_) => RestaurantDetailView(restaurant: id));
+            case SearchRestaurantView.route:
+              return MaterialPageRoute(
+                  builder: (_) => const SearchRestaurantView());
+            default:
+              return MaterialPageRoute(
+                builder: (_) {
+                  return const Scaffold(
+                    body: Center(
+                      child: Text('Oops..\nPage not found :('),
+                    ),
+                  );
+                },
+              );
+          }
+        },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
