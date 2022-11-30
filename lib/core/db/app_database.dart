@@ -28,11 +28,11 @@ class AppDatabase {
   void _onCreate(Database db, int version) async {
     await db.execute('''
         CREATE TABLE ${FavoriteDao.tableName} (
-        ${FavoriteDao.id} INTEGER PRIMARY KEY,
+        ${FavoriteDao.id} TEXT PRIMARY KEY,
         ${FavoriteDao.name} TEXT,
         ${FavoriteDao.pictureId} TEXT,
         ${FavoriteDao.city} TEXT,
-        ${FavoriteDao.rating} REAL,
+        ${FavoriteDao.rating} REAL
         );
     ''');
   }

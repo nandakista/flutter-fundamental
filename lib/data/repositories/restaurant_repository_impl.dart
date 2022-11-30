@@ -71,7 +71,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
   }
 
   @override
-  Future<bool> hasAddedToFavorite(int id) async {
+  Future<bool> hasAddedToFavorite(String id) async {
     final result = await localSource.getFavorite(id);
     return result != null;
   }

@@ -27,18 +27,18 @@ class RestaurantListProvider extends ChangeNotifier {
 
     final result = await getListRestaurant();
     result.fold(
-          (failure) {
+      (failure) {
         _message = failure.message;
         _state = RequestState.error;
         notifyListeners();
       },
-          (moviesData) {
-        if(moviesData.isEmpty) {
+      (data) {
+        if (data.isEmpty) {
           _state = RequestState.empty;
           _message = 'Empty Restaurant';
           notifyListeners();
         } else {
-          _data = moviesData;
+          _data = data;
           _state = RequestState.success;
           notifyListeners();
         }

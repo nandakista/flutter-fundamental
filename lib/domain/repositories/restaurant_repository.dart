@@ -11,6 +11,6 @@ abstract class RestaurantRepository {
   });
   Future<Either<Failure, String>> saveFavorite(Restaurant restaurant);
   Future<Either<Failure, String>> removeFavorite(Restaurant restaurant);
-  Future<bool> hasAddedToFavorite(int id);
+  Future<bool> hasAddedToFavorite(String id);
   Future<Either<Failure, List<Restaurant>>> getAllFavorite();
 }

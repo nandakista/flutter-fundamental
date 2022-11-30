@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:submission_final/initializer.dart' as di;
 import 'package:submission_final/ui/views/detail/restaurant_detail_provider.dart';
 import 'package:submission_final/ui/views/detail/restaurant_detail_view.dart';
+import 'package:submission_final/ui/views/favorite/favorite_provider.dart';
+import 'package:submission_final/ui/views/favorite/favorite_view.dart';
 import 'package:submission_final/ui/views/home/restaurant_list_provider.dart';
 import 'package:submission_final/ui/views/search/search_restataurant_provider.dart';
 import 'package:submission_final/ui/views/search/search_restaurant_view.dart';
@@ -34,6 +36,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.sl<SearchRestaurantProvider>(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<FavoriteProvider>(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -53,6 +58,9 @@ class MyApp extends StatelessWidget {
             case SearchRestaurantView.route:
               return MaterialPageRoute(
                   builder: (_) => const SearchRestaurantView());
+            case FavoriteView.route:
+              return MaterialPageRoute(
+                  builder: (_) => const FavoriteView());
             default:
               return MaterialPageRoute(
                 builder: (_) {

@@ -4,7 +4,7 @@ class GetFavoriteExistStatus {
   final RestaurantRepository repository;
   GetFavoriteExistStatus({required this.repository});
 
-  Future<bool> call(int id) {
+  Future<bool> call(String id) {
     return repository.hasAddedToFavorite(id);
   }
 }

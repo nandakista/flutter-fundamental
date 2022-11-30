@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:submission_final/core/constant/request_state.dart';
 import 'package:submission_final/core/theme/app_style.dart';
+import 'package:submission_final/ui/views/favorite/favorite_view.dart';
 import 'package:submission_final/ui/views/home/restaurant_list_provider.dart';
 import 'package:submission_final/ui/views/home/widgets/restaurant_item.dart';
 import 'package:submission_final/ui/views/search/search_restaurant_view.dart';
@@ -27,9 +28,20 @@ class RestaurantListView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Restaurant',
-                  style: AppStyle.subtitle2,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Restaurant',
+                      style: AppStyle.subtitle2,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, FavoriteView.route);
+                      },
+                      child: const Icon(CupertinoIcons.square_favorites),
+                    )
+                  ],
                 ),
                 Text(
                   'Lets find your favorite food...',
@@ -69,9 +81,7 @@ class RestaurantListView extends StatelessWidget {
                           return ListView.builder(
                             itemCount: provider.data.length,
                             itemBuilder: (context, index) {
-                              return RestaurantItem(
-                                data: provider.data[index],
-                              );
+                              return RestaurantItem(data: provider.data[index]);
                             },
                           );
                         case RequestState.error:

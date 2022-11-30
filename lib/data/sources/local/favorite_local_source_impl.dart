@@ -11,7 +11,7 @@ class FavoriteLocalSourceImpl extends FavoriteLocalSource {
   FavoriteLocalSourceImpl({required this.dao});
 
   @override
-  Future<Favorite?> getFavorite(int id) async {
+  Future<Favorite?> getFavorite(String id) async {
     final result = await dao.getFavorite(id);
     if (result != null) {
       return FavoriteModel.fromJson(result);
@@ -34,7 +34,7 @@ class FavoriteLocalSourceImpl extends FavoriteLocalSource {
   Future<String> insertFavorite(Favorite restaurant) async {
     try {
       await dao.insertFavorite(restaurant);
-      return 'Added to Watchlist';
+      return 'Added to Favorite';
     } catch (e) {
       throw DatabaseException(e.toString());
     }
@@ -44,7 +44,7 @@ class FavoriteLocalSourceImpl extends FavoriteLocalSource {
   Future<String> removeFavorite(Favorite restaurant) async {
     try {
       await dao.removeFavorite(restaurant);
-      return 'Removed from Watchlist';
+      return 'Removed from Favorite';
     } catch (e) {
       throw DatabaseException(e.toString());
     }

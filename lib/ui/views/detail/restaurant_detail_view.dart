@@ -27,6 +27,8 @@ class _RestaurantDetailViewState extends State<RestaurantDetailView> {
     Future.microtask(() {
       Provider.of<RestaurantDetailProvider>(context, listen: false)
           .loadData(widget.restaurant.id.toString());
+      Provider.of<RestaurantDetailProvider>(context, listen: false)
+          .loadFavoriteExistStatus(widget.restaurant.id.toString());
     });
     super.initState();
   }
@@ -35,6 +37,46 @@ class _RestaurantDetailViewState extends State<RestaurantDetailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.restaurant.name.toString())),
+      bottomNavigationBar: SafeArea(
+        child: Consumer<RestaurantDetailProvider>(
+          builder: (context, provider, child) {
+            if (provider.detailState == RequestState.success) {
+              provider.hasAddedToFavorite;
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (provider.hasAddedToFavorite == false) {
+                      await provider.addFavorite(provider.detailData);
+                    } else {
+                      await provider.removeFromFavorite(provider.detailData);
+                    }
+                    if (mounted) {
+                      _buildAlertSnackBar(context, provider.favoriteMessage);
+                    }
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        provider.hasAddedToFavorite ? Icons.check : Icons.add,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(width: 4),
+                      const Text(
+                        'Favorite',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -246,5 +288,22 @@ class _RestaurantDetailViewState extends State<RestaurantDetailView> {
         ),
       ),
     );
+  }
+
+  _buildAlertSnackBar(BuildContext context, String message) {
+    if (message == 'Added to Favorite' ||
+        message == 'Removed from Favorite') {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(message),
+          );
+        },
+      );
+    }
   }
 }

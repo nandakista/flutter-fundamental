@@ -30,7 +30,7 @@ class SearchRestaurantView extends StatelessWidget {
               icon: Icons.search,
               hint: 'Search title',
               onFieldSubmitted: (query) {
-                provider.onSearchMovie(query);
+                provider.onSearchRestaurant(query);
               },
             ),
             const SizedBox(height: 16),

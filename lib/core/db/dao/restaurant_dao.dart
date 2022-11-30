@@ -35,7 +35,7 @@ class FavoriteDao {
     );
   }
 
-  Future<Map<String, dynamic>?> getFavorite(int id) async {
+  Future<Map<String, dynamic>?> getFavorite(String id) async {
     Database? db = await AppDatabase().database;
     final result = await db!.query(
       tableName,

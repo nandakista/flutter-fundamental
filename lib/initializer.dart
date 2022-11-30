@@ -2,8 +2,13 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:submission_final/data/sources/server/restaurant_server_source.dart';
 import 'package:submission_final/domain/repositories/restaurant_repository.dart';
+import 'package:submission_final/domain/usecases/get_favorite.dart';
+import 'package:submission_final/domain/usecases/get_favorite_exist_status.dart';
+import 'package:submission_final/domain/usecases/remove_favorite.dart';
+import 'package:submission_final/domain/usecases/save_favorite.dart';
 import 'package:submission_final/domain/usecases/search_restaurant.dart';
 import 'package:submission_final/ui/views/detail/restaurant_detail_provider.dart';
+import 'package:submission_final/ui/views/favorite/favorite_provider.dart';
 import 'package:submission_final/ui/views/home/restaurant_list_provider.dart';
 import 'package:submission_final/ui/views/search/search_restataurant_provider.dart';
 
@@ -29,12 +34,20 @@ void init() {
   );
   sl.registerFactory(
     () => RestaurantDetailProvider(
-      getDetailRestaurant: sl<GetDetailRestaurant>(),
+      getDetailFavorite: sl<GetDetailRestaurant>(),
+      getFavoriteExistStatus: sl<GetFavoriteExistStatus>(),
+      saveFavorite: sl<SaveFavorite>(),
+      removeFavorite: sl<RemoveFavorite>(),
     ),
   );
   sl.registerFactory(
     () => SearchRestaurantProvider(
       searchRestaurant: sl<SearchRestaurant>(),
+    ),
+  );
+  sl.registerFactory(
+        () => FavoriteProvider(
+      getFavorite: sl<GetFavorite>(),
     ),
   );
 
@@ -51,6 +64,26 @@ void init() {
   );
   sl.registerLazySingleton(
     () => SearchRestaurant(
+      repository: sl<RestaurantRepository>(),
+    ),
+  );
+  sl.registerLazySingleton(
+        () => GetFavorite(
+      repository: sl<RestaurantRepository>(),
+    ),
+  );
+  sl.registerLazySingleton(
+        () => GetFavoriteExistStatus(
+      repository: sl<RestaurantRepository>(),
+    ),
+  );
+  sl.registerLazySingleton(
+        () => SaveFavorite(
+      repository: sl<RestaurantRepository>(),
+    ),
+  );
+  sl.registerLazySingleton(
+        () => RemoveFavorite(
       repository: sl<RestaurantRepository>(),
     ),
   );
