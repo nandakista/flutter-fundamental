@@ -3,7 +3,7 @@ import '../../domain/entities/menu.dart';
 import 'food_drink_model.dart';
 
 class MenuModel extends Menu {
-  MenuModel({
+  const MenuModel({
     List<FoodDrink>? drinks,
     List<FoodDrink>? foods,
   }) : super(

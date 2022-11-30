@@ -2,11 +2,11 @@ import 'package:submission_final/domain/entities/favorite.dart';
 
 class FavoriteModel extends Favorite {
   const FavoriteModel({
-    final String? id,
-    final String? name,
-    final String? pictureId,
-    final String? city,
-    final double? rating,
+    String? id,
+    String? name,
+    String? pictureId,
+    String? city,
+    double? rating,
   }) : super(
           id: id,
           name: name,

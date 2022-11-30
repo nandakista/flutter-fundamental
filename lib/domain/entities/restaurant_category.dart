@@ -1,7 +1,10 @@
-class RestaurantCategory {
-  RestaurantCategory({
-    this.name,
-  });
+import 'package:equatable/equatable.dart';
 
-  String? name;
+class RestaurantCategory extends Equatable {
+  const RestaurantCategory({this.name});
+
+  final String? name;
+
+  @override
+  List<Object?> get props => [name];
 }

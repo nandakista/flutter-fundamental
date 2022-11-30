@@ -1,7 +1,7 @@
 import '../../domain/entities/food_drink.dart';
 
 class FoodDrinkModel extends FoodDrink {
-  FoodDrinkModel({String? name}): super(name: name);
+  const FoodDrinkModel({String? name}): super(name: name);
 
   factory FoodDrinkModel.fromJson(Map<String, dynamic> json) => FoodDrinkModel(
     name: json["name"],

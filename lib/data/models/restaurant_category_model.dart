@@ -1,7 +1,7 @@
 import '../../domain/entities/restaurant_category.dart';
 
 class RestaurantCategoryModel extends RestaurantCategory {
-  RestaurantCategoryModel({String? name}) : super(name: name);
+  const RestaurantCategoryModel({String? name}) : super(name: name);
 
   factory RestaurantCategoryModel.fromJson(Map<String, dynamic> json) =>
       RestaurantCategoryModel(
