@@ -1,0 +1,32 @@
+{
+  "id": "rqdv5juczeskfw1e867",
+  "name": "Melting Pot",
+  "description": "description",
+  "pictureId": "14",
+  "city": "Medan",
+  "rating": 4.2,
+  "categories": [
+    {
+      "name": "Italia"
+    }
+  ],
+  "menus": {
+    "foods": [
+      {
+        "name": "Paket rosemary"
+      }
+    ],
+    "drinks": [
+      {
+        "name": "Es Teh"
+      }
+    ]
+  },
+  "customerReviews": [
+    {
+      "name": "Ahmad",
+      "review": "Tidak rekomendasi untuk pelajar!",
+      "date": "13 November 2019"
+    }
+  ]
+}
