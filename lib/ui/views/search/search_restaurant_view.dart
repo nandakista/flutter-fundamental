@@ -4,7 +4,9 @@ import 'package:submission_final/core/constant/request_state.dart';
 import 'package:submission_final/core/theme/app_style.dart';
 import 'package:submission_final/ui/views/home/widgets/restaurant_item.dart';
 import 'package:submission_final/ui/views/search/search_restataurant_provider.dart';
+import 'package:submission_final/ui/widgets/content_wrapper.dart';
 import 'package:submission_final/ui/widgets/sky_form_field.dart';
+import 'package:submission_final/ui/widgets/sky_image.dart';
 
 class SearchRestaurantView extends StatelessWidget {
   static const route = '/search';
@@ -47,10 +49,31 @@ class SearchRestaurantView extends StatelessWidget {
                     );
                   case RequestState.empty:
                     return Expanded(
-                      child: Center(
-                        child: Text(
+                      child: ContentWrapper(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           key: const Key('empty_message'),
-                          provider.message,
+                          children: [
+                            const SkyImage(
+                                url: 'assets/images/img_not_found.png'),
+                            const SizedBox(height: 24),
+                            Text(
+                              'Oops..',
+                              textAlign: TextAlign.center,
+                              style: AppStyle.headline2,
+                            ),
+                            const SizedBox(height: 4),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(
+                                'Restaurant Not Found',
+                                textAlign: TextAlign.center,
+                                style: AppStyle.subtitle4
+                                    .copyWith(fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     );

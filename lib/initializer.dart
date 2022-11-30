@@ -7,7 +7,10 @@ import 'package:submission_final/ui/views/detail/restaurant_detail_provider.dart
 import 'package:submission_final/ui/views/home/restaurant_list_provider.dart';
 import 'package:submission_final/ui/views/search/search_restataurant_provider.dart';
 
+import 'core/db/dao/restaurant_dao.dart';
 import 'data/repositories/restaurant_repository_impl.dart';
+import 'data/sources/local/favorite_local_source.dart';
+import 'data/sources/local/favorite_local_source_impl.dart';
 import 'data/sources/server/restaurant_server_source_impl.dart';
 import 'domain/usecases/get_detail_restaurant.dart';
 import 'domain/usecases/get_list_restaurant.dart';
@@ -56,7 +59,7 @@ void init() {
   sl.registerLazySingleton<RestaurantRepository>(
     () => RestaurantRepositoryImpl(
       serverSource: sl<RestaurantServerSource>(),
-      // localDataSource: sl<RestaurantLocalSource>(),
+      localSource: sl<FavoriteLocalSource>(),
     ),
   );
 
@@ -66,4 +69,12 @@ void init() {
       client: sl<http.Client>(),
     ),
   );
+  sl.registerLazySingleton<FavoriteLocalSource>(
+    () => FavoriteLocalSourceImpl(
+      dao: sl<FavoriteDao>(),
+    ),
+  );
+
+  // Dao
+  sl.registerLazySingleton<FavoriteDao>(() => FavoriteDao());
 }

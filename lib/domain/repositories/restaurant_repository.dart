@@ -9,4 +9,8 @@ abstract class RestaurantRepository {
   Future<Either<Failure, List<Restaurant>>> searchRestaurant({
     required String query,
   });
+  Future<Either<Failure, String>> saveFavorite(Restaurant restaurant);
+  Future<Either<Failure, String>> removeFavorite(Restaurant restaurant);
+  Future<bool> hasAddedToFavorite(int id);
+  Future<Either<Failure, List<Restaurant>>> getAllFavorite();
 }
