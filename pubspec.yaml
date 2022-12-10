@@ -29,6 +29,7 @@ dependencies:
   rxdart: ^0.27.7
   android_alarm_manager_plus: ^2.1.0
   shared_preferences: ^2.0.15
+  device_preview: ^1.1.0
 
 dev_dependencies:
   mockito: ^5.0.8

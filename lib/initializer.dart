@@ -23,7 +23,7 @@ import 'domain/usecases/get_list_restaurant.dart';
 
 final sl = GetIt.instance;
 
-Future<void> init() async {
+void init() {
   // Http Client
   sl.registerLazySingleton(() => http.Client());
 
@@ -111,8 +111,4 @@ Future<void> init() async {
 
   // Dao
   sl.registerLazySingleton<FavoriteDao>(() => FavoriteDao());
-
-  // Shared Preference
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreferences);
 }

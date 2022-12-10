@@ -62,7 +62,7 @@ void main() {
 
       // Assert
       verify(mockServerSource.getListRestaurant());
-      expect(result, equals(const Left(ServerFailure(''))));
+      expect(result, equals(const Left(ServerFailure('Server Failure'))));
     });
 
     test('''Should perform getListRestaurant() then return 

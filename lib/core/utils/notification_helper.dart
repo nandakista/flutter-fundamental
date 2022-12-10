@@ -103,7 +103,7 @@ class NotificationHelper {
   }
 
   void configureScheduling() async {
-    final prefs = sl<SharedPreferences>();
+    final prefs = await SharedPreferences.getInstance();
     bool isActiveReminder =
         prefs.getBool(SharedPrefsKey.isActiveReminder) ?? false;
     if (isActiveReminder) {

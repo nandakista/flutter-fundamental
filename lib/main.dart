@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +30,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await di.init();
+  di.init();
   final NotificationHelper notificationHelper = NotificationHelper();
   final BackgroundService service = BackgroundService();
   service.initializeIsolate();
@@ -36,7 +38,12 @@ Future<void> main() async {
     await AndroidAlarmManager.initialize();
   }
   await notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
