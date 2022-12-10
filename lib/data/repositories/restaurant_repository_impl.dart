@@ -28,7 +28,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
       final result = await serverSource.getDetailRestaurant(id: id);
       return Right(result);
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return const Left(ServerFailure('Server Failure'));
     } on SocketException {
       return const Left(ConnectionFailure('No Internet Connection'));
     }
@@ -40,7 +40,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
       final result = await serverSource.getListRestaurant();
       return Right(result);
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return const Left(ServerFailure('Server Failure'));
     } on SocketException {
       return const Left(ConnectionFailure('No Internet Connection'));
     }
@@ -54,7 +54,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
       final result = await serverSource.searchRestaurant(query: query);
       return Right(result);
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return const Left(ServerFailure('Server Failure'));
     } on SocketException {
       return const Left(ConnectionFailure('No Internet Connection'));
     }

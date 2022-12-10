@@ -2,20 +2,43 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:submission_final/core/constant/request_state.dart';
+import 'package:submission_final/core/utils/notification_helper.dart';
 import 'package:submission_final/core/theme/app_style.dart';
+import 'package:submission_final/ui/views/detail/restaurant_detail_view.dart';
 import 'package:submission_final/ui/views/favorite/favorite_view.dart';
 import 'package:submission_final/ui/views/home/restaurant_list_provider.dart';
 import 'package:submission_final/ui/views/home/widgets/restaurant_item.dart';
 import 'package:submission_final/ui/views/search/search_restaurant_view.dart';
+import 'package:submission_final/ui/views/settings/settings_view.dart';
 import 'package:submission_final/ui/widgets/colored_status_bar.dart';
 import 'package:submission_final/ui/widgets/content_wrapper.dart';
 import 'package:submission_final/ui/widgets/keyboard_dismisser.dart';
 import 'package:submission_final/ui/widgets/sky_form_field.dart';
 
-class RestaurantListView extends StatelessWidget {
+class RestaurantListView extends StatefulWidget {
   static const route = '/home';
 
   const RestaurantListView({Key? key}) : super(key: key);
+
+  @override
+  State<RestaurantListView> createState() => _RestaurantListViewState();
+}
+
+class _RestaurantListViewState extends State<RestaurantListView> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationHelper
+        .configureSelectNotificationSubject(RestaurantDetailView.route);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +58,20 @@ class RestaurantListView extends StatelessWidget {
                       'Restaurant',
                       style: AppStyle.subtitle2,
                     ),
+                    const Spacer(),
                     GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, FavoriteView.route);
                       },
                       child: const Icon(CupertinoIcons.square_favorites),
-                    )
+                    ),
+                    const SizedBox(width: 12),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, SettingsView.route);
+                      },
+                      child: const Icon(CupertinoIcons.settings),
+                    ),
                   ],
                 ),
                 Text(
