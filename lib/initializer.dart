@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_final/data/sources/server/restaurant_server_source.dart';
 import 'package:submission_final/domain/repositories/restaurant_repository.dart';
 import 'package:submission_final/domain/usecases/get_favorite.dart';
@@ -22,7 +23,7 @@ import 'domain/usecases/get_list_restaurant.dart';
 
 final sl = GetIt.instance;
 
-void init() {
+Future<void> init() async {
   // Http Client
   sl.registerLazySingleton(() => http.Client());
 
@@ -110,4 +111,8 @@ void init() {
 
   // Dao
   sl.registerLazySingleton<FavoriteDao>(() => FavoriteDao());
+
+  // Shared Preference
+  final sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => sharedPreferences);
 }

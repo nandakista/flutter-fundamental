@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:submission_final/core/constant/request_state.dart';
-import 'package:submission_final/core/utils/route_observer.dart';
 import 'package:submission_final/core/theme/app_style.dart';
+import 'package:submission_final/core/utils/route_observer.dart';
 import 'package:submission_final/ui/views/favorite/favorite_provider.dart';
 import 'package:submission_final/ui/views/home/widgets/restaurant_item.dart';
 import 'package:submission_final/ui/widgets/content_wrapper.dart';

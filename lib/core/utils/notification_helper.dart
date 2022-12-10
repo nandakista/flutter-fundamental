@@ -1,12 +1,16 @@
 import 'dart:convert';
-import 'dart:math';
 
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:submission_final/core/db/shared_prefs_key.dart';
 import 'package:submission_final/data/models/restaurant_model.dart';
-import 'package:submission_final/data/models/wrapper/restaurant_wrapper.dart';
 import 'package:submission_final/domain/entities/restaurant.dart';
+import 'package:submission_final/initializer.dart';
 
+import 'background_service.dart';
+import 'date_time_helper.dart';
 import 'navigation.dart';
 
 final selectNotificationSubject = BehaviorSubject<String>();
@@ -45,7 +49,7 @@ class NotificationHelper {
 
   Future<void> showNotification(
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-    RestaurantWrapper restaurants,
+    Restaurant restaurant,
   ) async {
     String channelId = "1";
     String channelName = "channel_01";
@@ -67,32 +71,52 @@ class NotificationHelper {
       iOS: iOSPlatformChannelSpecifics,
     );
 
-    RestaurantModel randomData =
-        restaurants.data[Random().nextInt(restaurants.data.length)];
-
-    String titleNotification = "<b>${randomData.name}</b>";
-    String titleNews =
-        'Lets explore this famous restaurant. This restaurant have rating (${randomData.rating}/5)..';
+    String titleNotification = "<b>${restaurant.name}</b>";
+    String titlePayload =
+        'Lets explore this famous restaurant. This restaurant have rating (${restaurant.rating}/5)..';
 
     await flutterLocalNotificationsPlugin.show(
       0,
       titleNotification,
-      titleNews,
+      titlePayload,
       platformChannelSpecifics,
-      payload: json.encode(restaurants.toJson()),
+      payload: json.encode(RestaurantModel(
+        id: restaurant.id,
+        name: restaurant.name,
+        description: restaurant.description,
+        rating: restaurant.rating,
+      ).toJson()),
     );
   }
 
   void configureSelectNotificationSubject(String route) {
     selectNotificationSubject.stream.listen(
       (String payload) async {
-        final data = RestaurantWrapper.fromJson(json.decode(payload));
-        RestaurantModel article = data.data[0];
+        final data = RestaurantModel.fromJson(json.decode(payload));
         Navigation.intentWithData(
           route,
-          Restaurant(id: article.id, name: article.name),
+          Restaurant(id: data.id, name: data.name),
         );
       },
     );
+    configureScheduling();
+  }
+
+  void configureScheduling() async {
+    final prefs = sl<SharedPreferences>();
+    bool isActiveReminder =
+        prefs.getBool(SharedPrefsKey.isActiveReminder) ?? false;
+    if (isActiveReminder) {
+      await AndroidAlarmManager.periodic(
+        const Duration(hours: 24),
+        1,
+        BackgroundService.callback,
+        startAt: DateTimeHelper.format(),
+        exact: true,
+        wakeup: true,
+      );
+    } else {
+      await AndroidAlarmManager.cancel(1);
+    }
   }
 }

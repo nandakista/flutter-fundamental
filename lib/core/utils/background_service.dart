@@ -1,11 +1,10 @@
-import 'dart:ui';
 import 'dart:isolate';
-import 'package:submission_final/data/models/restaurant_model.dart';
-import 'package:submission_final/data/models/wrapper/restaurant_wrapper.dart';
-import 'package:submission_final/data/sources/server/restaurant_server_source_impl.dart';
-import 'package:submission_final/initializer.dart';
-import 'package:submission_final/main.dart';
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:http/http.dart' as http;
+import 'package:submission_final/data/sources/server/restaurant_server_source_impl.dart';
+import 'package:submission_final/main.dart';
 
 import 'notification_helper.dart';
 
@@ -30,25 +29,12 @@ class BackgroundService {
   }
 
   static Future<void> callback() async {
-    print('Alarm fired!');
     final NotificationHelper notificationHelper = NotificationHelper();
-    final result = await RestaurantServerSourceImpl(client: sl<http.Client>())
+    final result = await RestaurantServerSourceImpl(client: http.Client())
         .getListRestaurant();
     await notificationHelper.showNotification(
       flutterLocalNotificationsPlugin,
-      RestaurantWrapper(
-        data: result
-            .map(
-              (e) => RestaurantModel(
-                name: e.name,
-                pictureId: e.pictureId,
-                id: e.pictureId,
-                city: e.city,
-                rating: e.rating,
-              ),
-            )
-            .toList(),
-      ),
+      result[Random().nextInt(result.length)],
     );
 
     _uiSendPort ??= IsolateNameServer.lookupPortByName(_isolateName);

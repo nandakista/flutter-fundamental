@@ -4,7 +4,6 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import 'package:submission_final/ui/views/settings/scheduling_provider.dart';
 import 'package:submission_final/initializer.dart' as di;
 import 'package:submission_final/ui/views/detail/restaurant_detail_provider.dart';
 import 'package:submission_final/ui/views/detail/restaurant_detail_view.dart';
@@ -13,22 +12,23 @@ import 'package:submission_final/ui/views/favorite/favorite_view.dart';
 import 'package:submission_final/ui/views/home/restaurant_list_provider.dart';
 import 'package:submission_final/ui/views/search/search_restataurant_provider.dart';
 import 'package:submission_final/ui/views/search/search_restaurant_view.dart';
+import 'package:submission_final/ui/views/settings/scheduling_provider.dart';
 import 'package:submission_final/ui/views/settings/settings_view.dart';
 
+import 'core/theme/app_theme.dart';
 import 'core/utils/background_service.dart';
 import 'core/utils/navigation.dart';
 import 'core/utils/notification_helper.dart';
 import 'core/utils/route_observer.dart';
-import 'core/theme/app_theme.dart';
 import 'domain/entities/restaurant.dart';
 import 'ui/views/home/restaurant_list_view.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  di.init();
+  await di.init();
   final NotificationHelper notificationHelper = NotificationHelper();
   final BackgroundService service = BackgroundService();
   service.initializeIsolate();
@@ -58,7 +58,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.sl<FavoriteProvider>(),
         ),
-        ChangeNotifierProvider(create: (_) => SchedulingProvider()),
+        ChangeNotifierProvider(
+          create: (_) => SchedulingProvider().init(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -80,11 +82,9 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (_) => const SearchRestaurantView());
             case FavoriteView.route:
-              return MaterialPageRoute(
-                  builder: (_) => const FavoriteView());
+              return MaterialPageRoute(builder: (_) => const FavoriteView());
             case SettingsView.route:
-              return MaterialPageRoute(
-                  builder: (_) => const SettingsView());
+              return MaterialPageRoute(builder: (_) => const SettingsView());
             default:
               return MaterialPageRoute(
                 builder: (_) {

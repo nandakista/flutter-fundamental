@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-
 import 'package:submission_final/core/error/failure.dart';
 import 'package:submission_final/data/sources/local/favorite_local_source.dart';
 import 'package:submission_final/data/sources/server/restaurant_server_source.dart';

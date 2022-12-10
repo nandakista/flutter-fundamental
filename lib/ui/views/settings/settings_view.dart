@@ -1,17 +1,16 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:submission_final/core/utils/notification_helper.dart';
-import 'package:submission_final/data/models/restaurant_model.dart';
-import 'package:submission_final/data/models/wrapper/restaurant_wrapper.dart';
 import 'package:submission_final/data/sources/server/restaurant_server_source_impl.dart';
 import 'package:submission_final/initializer.dart';
 import 'package:submission_final/main.dart';
 import 'package:submission_final/ui/views/settings/scheduling_provider.dart';
 import 'package:submission_final/ui/widgets/content_wrapper.dart';
 import 'package:submission_final/ui/widgets/custom_dialog.dart';
-import 'package:http/http.dart' as http;
 
 class SettingsView extends StatelessWidget {
   static const route = '/settings';
@@ -32,7 +31,7 @@ class SettingsView extends StatelessWidget {
             children: [
               Material(
                 child: ListTile(
-                  title: const Text('Scheduling News'),
+                  title: const Text('Scheduling Restaurant'),
                   trailing: Consumer<SchedulingProvider>(
                     builder: (context, scheduled, _) {
                       return Switch.adaptive(
@@ -41,7 +40,7 @@ class SettingsView extends StatelessWidget {
                           if (Platform.isIOS) {
                             customDialog(context);
                           } else {
-                            scheduled.scheduledNews(value);
+                            scheduled.scheduledRestaurant(value);
                           }
                         },
                       );
@@ -49,30 +48,6 @@ class SettingsView extends StatelessWidget {
                   ),
                 ),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  final NotificationHelper notificationHelper = NotificationHelper();
-                  var result = await RestaurantServerSourceImpl(client: sl<http.Client>()).getListRestaurant();
-                  await notificationHelper.showNotification(
-                    flutterLocalNotificationsPlugin,
-                    RestaurantWrapper(
-                      data: result
-                          .map(
-                            (e) => RestaurantModel(
-                          id: e.id,
-                          name: e.name,
-                          pictureId: e.pictureId,
-                          city: e.city,
-                          rating: e.rating,
-                              description: e.description,
-                        ),
-                      )
-                          .toList(),
-                    ),
-                  );
-                },
-                child: const Text('Show Notification'),
-              )
             ],
           ),
         ),
