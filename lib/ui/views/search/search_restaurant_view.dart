@@ -10,13 +10,12 @@ import 'package:submission_final/ui/widgets/sky_image.dart';
 
 class SearchRestaurantView extends StatelessWidget {
   static const route = '/search';
+
   const SearchRestaurantView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final provider =
-        Provider.of<SearchRestaurantProvider>(context, listen: false)
-          ..toInitial();
+    Provider.of<SearchRestaurantProvider>(context, listen: false).init();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search'),
@@ -26,13 +25,20 @@ class SearchRestaurantView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SkyFormField(
-              icon: Icons.search,
-              hint: 'Search title',
-              onFieldSubmitted: (query) {
-                provider.onSearchRestaurant(query);
-              },
-            ),
+            Consumer<SearchRestaurantProvider>(
+                builder: (context, provider, child) {
+              return SkyFormField(
+                icon: Icons.search,
+                hint: 'Search title',
+                onFieldSubmitted: (query) {
+                  if (query == '') {
+                    provider.toInitial();
+                  } else {
+                    provider.onSearchRestaurant(query);
+                  }
+                },
+              );
+            }),
             const SizedBox(height: 16),
             Text(
               'Search Result',
@@ -50,30 +56,34 @@ class SearchRestaurantView extends StatelessWidget {
                   case RequestState.empty:
                     return Expanded(
                       child: ContentWrapper(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          key: const Key('empty_message'),
-                          children: [
-                            const SkyImage(
-                                url: 'assets/images/img_not_found.png'),
-                            const SizedBox(height: 24),
-                            Text(
-                              'Oops..',
-                              textAlign: TextAlign.center,
-                              style: AppStyle.headline2,
+                        child: Center(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              key: const Key('empty_message'),
+                              children: [
+                                const SkyImage(
+                                    url: 'assets/images/img_not_found.png'),
+                                const SizedBox(height: 24),
+                                Text(
+                                  'Oops..',
+                                  textAlign: TextAlign.center,
+                                  style: AppStyle.headline2,
+                                ),
+                                const SizedBox(height: 4),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Text(
+                                    'Restaurant Not Found',
+                                    textAlign: TextAlign.center,
+                                    style: AppStyle.subtitle4
+                                        .copyWith(fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 4),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(
-                                'Restaurant Not Found',
-                                textAlign: TextAlign.center,
-                                style: AppStyle.subtitle4
-                                    .copyWith(fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     );

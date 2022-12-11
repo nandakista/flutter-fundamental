@@ -30,7 +30,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  di.init();
+  await di.init();
   final NotificationHelper notificationHelper = NotificationHelper();
   final BackgroundService service = BackgroundService();
   service.initializeIsolate();
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
           create: (_) => di.sl<FavoriteProvider>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => SchedulingProvider().init(),
+          create: (_) => di.sl<SchedulingProvider>().init(),
         ),
       ],
       child: MaterialApp(

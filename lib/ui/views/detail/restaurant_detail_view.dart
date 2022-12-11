@@ -115,9 +115,11 @@ class _RestaurantDetailViewState extends State<RestaurantDetailView> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    '${data.name}',
-                                    style: AppStyle.subtitle2,
+                                  Expanded(
+                                    child: Text(
+                                      '${data.name}',
+                                      style: AppStyle.subtitle2,
+                                    ),
                                   ),
                                   Row(
                                     children: [
@@ -142,44 +144,54 @@ class _RestaurantDetailViewState extends State<RestaurantDetailView> {
                                     height: 20,
                                   ),
                                   const SizedBox(width: 8),
-                                  Text(
-                                    '${data.city}',
-                                    style: AppStyle.body1
-                                        .copyWith(fontWeight: FontWeight.w400),
+                                  Flexible(
+                                    child: Text(
+                                      '${data.city}',
+                                      style: AppStyle.body1
+                                          .copyWith(fontWeight: FontWeight.w400),
+                                    ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 24),
                               Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      const SkyImage(
-                                        url: 'assets/images/ic_food.png',
-                                        height: 36,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        '${data.menus?.drinks?.length} Foods',
-                                        style: AppStyle.body1.copyWith(
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
+                                  Flexible(
+                                    child: Row(
+                                      children: [
+                                        const SkyImage(
+                                          url: 'assets/images/ic_food.png',
+                                          height: 36,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Flexible(
+                                          child: Text(
+                                            '${data.menus?.drinks?.length} Foods',
+                                            style: AppStyle.body1.copyWith(
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   const SizedBox(width: 16),
-                                  Row(
-                                    children: [
-                                      const SkyImage(
-                                        url: 'assets/images/ic_drink.png',
-                                        height: 36,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        '${data.menus?.drinks?.length} Drinks',
-                                        style: AppStyle.body1.copyWith(
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
+                                  Flexible(
+                                    child: Row(
+                                      children: [
+                                        const SkyImage(
+                                          url: 'assets/images/ic_drink.png',
+                                          height: 36,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Flexible(
+                                          child: Text(
+                                            '${data.menus?.drinks?.length} Drinks',
+                                            style: AppStyle.body1.copyWith(
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

@@ -15,7 +15,15 @@ class SearchRestaurantProvider extends ChangeNotifier {
   List<Restaurant> _data = <Restaurant>[];
   List<Restaurant> get data => _data;
 
-  void toInitial() => _state = RequestState.initial;
+  SearchRestaurantProvider init() {
+    _state = RequestState.initial;
+    return this;
+  }
+
+  void toInitial() {
+    _state = RequestState.initial;
+   notifyListeners();
+  }
 
   Future<void> onSearchRestaurant(String query) async {
     _state = RequestState.loading;

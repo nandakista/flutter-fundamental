@@ -20,10 +20,11 @@ import 'data/sources/local/favorite_local_source_impl.dart';
 import 'data/sources/server/restaurant_server_source_impl.dart';
 import 'domain/usecases/get_detail_restaurant.dart';
 import 'domain/usecases/get_list_restaurant.dart';
+import 'ui/views/settings/scheduling_provider.dart';
 
 final sl = GetIt.instance;
 
-void init() {
+Future<void> init() async {
   // Http Client
   sl.registerLazySingleton(() => http.Client());
 
@@ -47,8 +48,13 @@ void init() {
     ),
   );
   sl.registerFactory(
-        () => FavoriteProvider(
+    () => FavoriteProvider(
       getFavorite: sl<GetFavorite>(),
+    ),
+  );
+  sl.registerFactory(
+    () => SchedulingProvider(
+      prefs: sl<SharedPreferences>(),
     ),
   );
 
@@ -69,22 +75,22 @@ void init() {
     ),
   );
   sl.registerLazySingleton(
-        () => GetFavorite(
+    () => GetFavorite(
       repository: sl<RestaurantRepository>(),
     ),
   );
   sl.registerLazySingleton(
-        () => GetFavoriteExistStatus(
+    () => GetFavoriteExistStatus(
       repository: sl<RestaurantRepository>(),
     ),
   );
   sl.registerLazySingleton(
-        () => SaveFavorite(
+    () => SaveFavorite(
       repository: sl<RestaurantRepository>(),
     ),
   );
   sl.registerLazySingleton(
-        () => RemoveFavorite(
+    () => RemoveFavorite(
       repository: sl<RestaurantRepository>(),
     ),
   );
@@ -111,4 +117,8 @@ void init() {
 
   // Dao
   sl.registerLazySingleton<FavoriteDao>(() => FavoriteDao());
+
+  // SharedPreferences
+  final sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }

@@ -75,7 +75,7 @@ class RestaurantItem extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    RatingBuilder(ratingValue: data.rating),
+                    Expanded(child: RatingBuilder(ratingValue: data.rating)),
                     const SizedBox(width: 8),
                     Text('(${data.rating} / 5)')
                   ],

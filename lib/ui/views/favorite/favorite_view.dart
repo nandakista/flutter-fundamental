@@ -51,29 +51,33 @@ class _FavoriteViewState extends State<FavoriteView> with RouteAware {
                   return Container();
                 case RequestState.empty:
                   return ContentWrapper(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      key: const Key('empty_message'),
-                      children: [
-                        const SkyImage(url: 'assets/images/img_error.png'),
-                        const SizedBox(height: 24),
-                        Text(
-                          'Oops..',
-                          textAlign: TextAlign.center,
-                          style:
-                              AppStyle.headline2.copyWith(color: Colors.black),
+                    child: Center(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          key: const Key('empty_message'),
+                          children: [
+                            const SkyImage(url: 'assets/images/img_error.png'),
+                            const SizedBox(height: 24),
+                            Text(
+                              'Oops..',
+                              textAlign: TextAlign.center,
+                              style:
+                                  AppStyle.headline2.copyWith(color: Colors.black),
+                            ),
+                            const SizedBox(height: 4),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(
+                                'Empty Favorite',
+                                textAlign: TextAlign.center,
+                                style: AppStyle.subtitle4
+                                    .copyWith(fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 4),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            'Empty Favorite',
-                            textAlign: TextAlign.center,
-                            style: AppStyle.subtitle4
-                                .copyWith(fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   );
                 case RequestState.loading:

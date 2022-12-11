@@ -2,14 +2,15 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_final/core/db/shared_prefs_key.dart';
-import 'package:submission_final/initializer.dart';
 
 import '../../../core/utils/background_service.dart';
 import '../../../core/utils/date_time_helper.dart';
 
 class SchedulingProvider extends ChangeNotifier {
+  SharedPreferences prefs;
+  SchedulingProvider({required this.prefs});
+
   late bool _isScheduled;
-  final prefs = sl<SharedPreferences>();
 
   bool get isScheduled => _isScheduled;
 
